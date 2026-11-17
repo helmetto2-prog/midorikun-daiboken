@@ -78,6 +78,17 @@ body.dpad .ab .pb.ga{font-size:13px}
   text-shadow:calc(var(--u,1) * 3px) calc(var(--u,1) * 3px) 0 #7a3a10,0 0 calc(var(--u,1) * 12px) #f08020,calc(var(--u,1) * 2px) calc(var(--u,1) * 2px) 0 #000}
 #titlescr .t2{font-size:calc(var(--u,1) * 19px);margin-top:calc(var(--u,1) * 6px);color:#fff;letter-spacing:.3em;text-shadow:calc(var(--u,1) * 2px) calc(var(--u,1) * 2px) 0 #000}
 #titlescr .brand{position:absolute;left:0;right:0;bottom:calc(var(--u,1) * 8px);font-size:calc(var(--u,1) * 10px);line-height:1.5;color:#c8ccf0}
+/* v04：タイトルを作り直し（ふちどり＋金のグラデーションの題字・英字の小見出し・帯のサブタイトル） */
+#titlescr .top{top:calc(var(--u,1) * 10px)}
+#titlescr .te{font-size:calc(var(--u,1) * 8px);font-weight:900;letter-spacing:.45em;color:#bfe8ff;margin-bottom:calc(var(--u,1) * 4px)}
+#titlescr{container-type:inline-size}
+#titlescr .t1{font-size:calc(var(--u,1) * 44px);font-size:min(calc(var(--u,1) * 44px),9.3cqw);font-weight:900;letter-spacing:.02em;line-height:1.2;text-shadow:none;animation:tsIn .9s cubic-bezier(.2,1.5,.4,1) both}
+#titlescr .t1 .lg{position:relative;display:inline-block;white-space:nowrap}
+#titlescr .t1 .lg::before{content:attr(data-t);position:absolute;left:0;top:0;color:#160a3c;-webkit-text-fill-color:#160a3c;-webkit-text-stroke:.2em #160a3c;filter:drop-shadow(0 0 .2em rgba(240,128,32,.95)) drop-shadow(0 .08em .08em #000)}
+#titlescr .t1 .lg::after{content:attr(data-t);position:absolute;left:0;top:0;color:#fff;-webkit-text-fill-color:#fff;-webkit-text-stroke:.07em #fff}
+#titlescr .t1 .lgt{position:relative;z-index:1;background:linear-gradient(180deg,#fffbe0 0%,#ffe066 40%,#f08020 76%,#a8420c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+#titlescr .t2{display:inline-block;font-size:calc(var(--u,1) * 15px);font-weight:900;margin-top:calc(var(--u,1) * 5px);padding:calc(var(--u,1) * 2px) calc(var(--u,1) * 14px) calc(var(--u,1) * 2px) calc(var(--u,1) * 18px);border-radius:999px;background:linear-gradient(90deg,#2436a8,#5a2aa8);border:calc(var(--u,1) * 1.5px) solid #ffe9a8;box-shadow:0 calc(var(--u,1) * 2px) calc(var(--u,1) * 6px) #000a}
+@keyframes tsIn{from{opacity:0;transform:translateY(-18px) scale(1.18)}to{opacity:1;transform:none}}
 body.touch.land #wrap{padding:max(6px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
 body.touch.land #pad{position:fixed;inset:0;max-width:none;padding:0 max(6px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));pointer-events:none;align-items:flex-end}
 body.touch.land .dp,body.touch.land .ab{pointer-events:auto;opacity:.8}
@@ -100,7 +111,7 @@ body.touch.land.dpad .ab{grid-template-columns:1fr 1fr;grid-template-rows:repeat
 (function(){'use strict';
 /* ---- 00_core.js ---- */
 /* ===== 00_core: 基本ユーティリティ / 乱数 / 保存 / エラー帯 ===== */
-const VERSION = 'v03';
+const VERSION = 'v04';
 const GAME_ID = 'maruko_fushigi';
 const $ = id => document.getElementById(id);
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -2889,7 +2900,7 @@ const Screens = {
     if (!App.demo) App.startDemo();
     const b = Records.get(), e = document.createElement('div');
     e.id = 'titlescr';
-    e.innerHTML = '<div class="top"><div class="t1">みどりくんの大冒険</div><div class="t2">ふしぎな地下迷宮</div></div>' +
+    e.innerHTML = '<div class="top"><div class="te">MIDORI-KUN\'S GREAT ADVENTURE</div><div class="t1"><span class="lg" data-t="みどりくんの大冒険"><span class="lgt">みどりくんの大冒険</span></span></div><div class="t2">ふしぎな地下迷宮</div></div>' +
       '<div class="brand">' + (b.score ? 'ベスト ' + floorName(b.depth) + '　スコア ' + b.score + '<br>' : '') + 'ずんだゲームズ　' + VERSION + '</div>';
     UI.root.appendChild(e); this.titleEl = e;
     UI.open({cls: 'dim', pos: {center: true, t: Math.round(R.H * 0.48), minW: 150}, noCancel: true, items: [
